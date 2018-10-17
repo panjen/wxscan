@@ -32,7 +32,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    baseUrl: 'http://127.0.0.1:8080',
+    baseUrl: 'http://172.17.19.90:8080',
     imageUrl: 'XXXXXXXX'
   }
 })
