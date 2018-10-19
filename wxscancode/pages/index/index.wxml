@@ -1,29 +1,79 @@
 <view class="login-container">
 
   <view class="login" wx:if="{{!logged }}">
-  
+
     <view class="app-info">
-      <image class="app-logo" src="{{logo}}"/>
-      <text class="app-name">test</text>
+        <image class="app-logo" src="{{logo}}" />
+      <text class="app-name">家化产品防伪查询</text>
     </view>
-  
+
     <view class="alert">
-    
-      <view class="alert-title">尊敬的用户，请确认授权以下信息</view>
-    
+
+      <view class="alert-title">尊敬的用户，欢迎使用上海家化防伪查询系统</view>
+
+      <!--
       <view class="alert-desc">
-      
+
         <view class="alert-text">获得你的公开信息（昵称、头像等）</view>
+      </view>
+    -->
+    </view>
+
+    <button class="weui-btn" type="primary" open-type="getUserInfo"  bindtap="login" data-statu="open">扫描产品二维码</button>
+
+    <!--button
+    <view class="btn" bindtap="powerDrawer" data-statu="open">测试</view>-->
+
+    <!--mask-->
+    <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+    <!--content-->
+    <!--使用animation属性指定需要执行的动画-->
+    <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+
+      <!--drawer content-->
+      <view class="drawer_title">查询结果</view>
+      <view class="drawer_content">
+        <view class="top grid">
+          <!--
+      <label class="title col-0">码</label>-->
+          <view class="title col-0">{{result}}</view>
+          <!--
+      <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input>
+      -->
         </view>
+        <!--
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="mobile" value="110"></input>
     </view>
-  
-    <button class="weui-btn" type="primary" open-type="getUserInfo" bindgetuserinfo="login">确认登录</button>
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="phone" value="拒绝伸手党"></input>
     </view>
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="Email" value="仅供学习使用"></input>
+    </view>
+    <view class="top bottom grid">
+      <label class="title col-0">备注</label>
+      <input class="input_base input_h30 col-1" name="bz"></input>
+    </view>
+    -->
+      </view>
+
+      <view class="btn_ok" bindtap="powerDrawer" data-statu="close">确定</view>
+    </view>
+
+  </view>
 
   <view class="logged" wx:else>
     <image class="logged-icon" />
     <view class="logged-text">近期你已经授权登陆过{{title}}</view>
-  
+
     <view class="logged-text">自动登录中</view>
   </view>
+
+
+
+
 </view>
