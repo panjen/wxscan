@@ -6,7 +6,8 @@ import java.util.Map;
 
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,13 +18,13 @@ import com.jahwa.demo.HttpRequest;
 @Controller
 @RequestMapping("/wXLoginController")
 public class WXAppletUserInfo {
-	private static Logger logger = Logger.getLogger(WXAppletUserInfo.class);
+	private static Logger logger = LoggerFactory.getLogger(WXAppletUserInfo.class);
 	@RequestMapping(params = "decodeUserInfo")
 	@ResponseBody
-	public Map decodeUserInfo(String encryptedData, String iv, String code,HttpServletRequest request) {
+	public Map<String, Object> decodeUserInfo(String encryptedData, String iv, String code,HttpServletRequest request) {
 		logger.info(request.getRemoteAddr()+":"+request.getRequestURI()+"?"
 				+request.getQueryString()+"="+encryptedData+"&"+iv+"&"+code);
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 登录凭证不能为空
 		if (code == null || code.length() == 0) {
@@ -62,7 +63,7 @@ public class WXAppletUserInfo {
 				map.put("msg", "解密成功");
 
 				JSONObject userInfoJSON = new JSONObject(result);
-				Map userInfo = new HashMap();
+				Map<String, Object> userInfo = new HashMap<String, Object>();
 				userInfo.put("openId", userInfoJSON.get("openId"));
 				userInfo.put("nickName", userInfoJSON.get("nickName"));
 				userInfo.put("gender", userInfoJSON.get("gender"));

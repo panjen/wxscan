@@ -6,7 +6,8 @@ import java.util.Map;
 
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class WXScanCode {
-	private static Logger logger = Logger.getLogger(WXScanCode.class);
+	private static Logger logger = LoggerFactory.getLogger(WXScanCode.class);
 	
 	@ResponseBody
 	@RequestMapping(value="/wXScanCodeController",params="scanCodeInfo")
@@ -35,7 +36,8 @@ public class WXScanCode {
 		String params ="code="+primarycode+"&ip="+	ipAddress+"&wx="+openid;
 		String sr=HttpRequest.sendGet("http://jahwa.winsafe.cn/fwmQueryLogController/wxFwmQuery.do", params);
 		JSONObject json = new JSONObject(sr);
-		logger.info(json);
+		logger.info("{}",json);
+		
 		String msg=json.get("returnMsg").toString();
 		return msg;
 		

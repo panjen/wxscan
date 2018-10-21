@@ -82,16 +82,13 @@ Page({
 
                         console.log(res.result + "   success");
                         that.show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
+
                         
-                        
-                        
-                         
-                        
-                        wx.showToast({
-                          title: '扫描成功',
-                          icon: 'success',
-                          duration: 2000
-                        });
+                        // wx.showToast({
+                        //   title: '扫描成功',
+                        //   icon: 'success',
+                        //   duration: 2000
+                        // });
                         
                       },
                       fail: function () {
@@ -135,19 +132,7 @@ Page({
   },
 
    powerDrawer: function (ee) {
-    wx.getLocation({
-      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-      success (res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        wx.openLocation({
-          // latitude,
-          // longitude,
-          // scale: 28
-          
-        })
-      }
-    });
+   
      var currentStatu = ee.currentTarget.dataset.statu;
      this.util(currentStatu)
    },

@@ -1,7 +1,8 @@
 package com.jahwa.demo;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -32,7 +33,7 @@ public class AesCbcUtil {
 		// BouncyCastle是一个开源的加解密解决方案，主页在http://www.bouncycastle.org/
 		Security.addProvider(new BouncyCastleProvider());
 	}
-	private static Logger logger = Logger.getLogger(AesCbcUtil.class);
+	private static Logger logger = LoggerFactory.getLogger(AesCbcUtil.class);
 	/**
 	 * AES解密 
 	 * @param data //密文，被加密的数据

@@ -17,14 +17,14 @@ App({
             },
             fail: function () {
               wx.redirectTo({
-                url: '../../pages/login/login',
+                url: '../../pages/logs/logs',
               })
             }
           })
         } else {
           //未授权, 跳转登录页面
           wx.redirectTo({
-            url: '../../pages/login/login',
+            url: '../../pages/logs/logs',
           })
         }
       }
@@ -32,7 +32,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    baseUrl: 'http://172.17.19.90:8080',
+    baseUrl: 'http://172.17.165.180:8080',
     imageUrl: 'XXXXXXXX'
   }
 })
