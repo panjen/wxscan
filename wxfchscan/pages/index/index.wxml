@@ -1,0 +1,55 @@
+
+<!--button-->
+<view class="top ">当前定位 ：{{position}}</view>
+<view class="top  grid">
+  <label class="col-0">门店名称 :\t</label>
+  <input class="input_base input_h30 col-1" type="text" bindinput="storeInput" placeholder="门店名称" autofocus></input>
+</view>
+<view class="btn" bindtap="scanFCHCode" >扫描二维码</view>
+
+
+<!--
+<view class="map_container"> 
+    <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" show-location="true" markers="{{markers}}" bindmarkertap="makertap"></map> 
+  </view> -->
+  <view class="rgc_info"> 
+    <!--
+      <text>测试结果\n</text>  
+      <text>测试结果2测试结果2测试结果2测试结果2测试结果2测试结果2测试结果2测试结果2\n</text>  -->
+    <text>{{rgcData.queryCode}}\n</text>   
+    <text>{{rgcData.productName}}\n</text> 
+    <text>{{rgcData.inWarehouse}}\n</text> 
+    <text>{{rgcData.toCompanyname}}\n</text> 
+    <text>{{rgcData.storeDateApp}}\n</text> 
+    <text>{{rgcData.billNo}}\n</text> 
+    
+  </view>
+ 
+
+<view class="drawer_screen" data-statu="close"  wx:if="{{showModalStatus}}"></view>
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+  <!--drawer content-->
+  <view class="drawer_title">请登录</view>
+  <view class="drawer_content">
+    <!--<view class="top grid">
+      <label class="title col-0">码</label>
+      <view class="title col-0">{{result}}</view>
+      <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input>
+    </view>-->
+    
+    <view class="top grid">
+      <label class="title col-0">用户名</label>
+      <input class="input_base input_h30 col-1" type="text" bindinput="nameInput" placeholder="用户名" autofocus></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">密码</label>
+      <input class="input_base input_h30 col-1" type="password" bindinput="passwordInput" placeholder="密码" autofocus></input>
+    </view>
+
+  </view>
+
+  <view class="btn_ok" bindtap="login" >登 陆</view>
+</view>
+
