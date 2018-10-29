@@ -3,20 +3,20 @@
 const app = getApp();
 var loginURL = app.globalData.baseUrl + '/verifyFlowInterfaceController/checkInfo.do';
 var FCHCodeURL = app.globalData.baseUrl + '/verifyFlowInterfaceController/getFlow.do';
-var amapFile = require('../../utils/amap-wx.js');
-//var bmap = require('../../utils/bmap-wx.js');
-var wxMarkerData = [];
+var amapFile = require('../../utils/amap-wx.js'); //高德地图SDK
+//var bmap = require('../../utils/bmap-wx.js');//百度地图SDK
+//var wxMarkerData = [];
 // 引入SDK核心类
-//var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
+//var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');//QQ地图SDK
 
 Page({
   data: {
     showModalStatus: false,
-   // name: '',
+    // name: '',
     password: '',
     storeName: '',
-    position:'',
-    position2:'',
+    position: '',
+    position2: '',
 
     markers: [],
     latitude: '',
@@ -26,19 +26,19 @@ Page({
   },
   nameInput: function (e) {
     this.setData({
-      name: e.detail.value
+      name: e.detail.value //输入账号
     });
     // console.log(e.detail.value);
   },
   passwordInput(e) {
     this.setData({
-      password: e.detail.value
+      password: e.detail.value //输入密码
     });
     // console.log(e.detail.value)
   },
   storeInput(e) {
     this.setData({
-      storeName: e.detail.value
+      storeName: e.detail.value //获取输入的店铺
     });
   },
 
@@ -46,30 +46,36 @@ Page({
     console.log("执行弹窗前:", app.globalData.flag);
     var that = this;
     var flag = wx.getStorageSync('flag');
-    var userLocation=wx.getStorageSync('userLocation');
+    var userLocation = wx.getStorageSync('userLocation');
     console.log(userLocation.length);
     var myAmapFun = new amapFile.AMapWX({
-      key: '752c1acbe8200aeac722478dd69a7278'
+      key: '752c1acbe8200aeac722478dd69a7278' //高德地图KEY
     });
-      //高德地图获取位置信息
-      myAmapFun.getRegeo({
-        success: function (data) {
-          //成功回调
-          console.log("高德：",data);
-          that.setData({position:data[0].latitude})
-          that.setData({position:data[0].longitude})
-          that.setData({position:data[0].name})
-          console.log("高德：",data[0].latitude,data[0].longitude,data[0].name);
-        },
-        fail: function (info) {
-          //失败回调
-          console.log(info);
-        }
-      });
+    //高德地图获取位置信息
+    myAmapFun.getRegeo({
+      success: function (data) {
+        //成功回调
+        console.log("高德：", data);
+        that.setData({
+          position: data[0].latitude
+        })
+        that.setData({
+          position: data[0].longitude
+        })
+        that.setData({
+          position: data[0].name
+        })
+        console.log("高德：", data[0].latitude, data[0].longitude, data[0].name);
+      },
+      fail: function (info) {
+        //失败回调
+        console.log(info);
+      }
+    });
 
     console.log("缓存中flag:", flag);
 
-    
+
 
     //百度地图API
     // var BMap = new bmap.BMapWX({
@@ -133,8 +139,8 @@ Page({
     //判断缓存中flag是否为ture,ture不弹窗，
     if (flag) {
       //console.log(e); 
-     
-      
+
+
     } else {
       var currentStatu = "open";
       that.util(currentStatu);
@@ -220,21 +226,37 @@ Page({
     var that = this;
     var loginUserInfo = wx.getStorageSync('loginUserInfo');
     //console.log(loginUserInfo.returnCode);
-    if (loginUserInfo.returnCode == 0) {
+    if (!(that.data.storeName)) {
+      //判断是否输入了店铺名称
+      wx.showToast({
+        title: '请输入店铺名称',
+        icon: 'none',
+        duration: 3000
+      });
+      //判断用户是否登录
+    } else if (loginUserInfo.returnCode == 0) {
 
       wx.scanCode({
         success: function (res) {
           console.log(res);
           var queryCode = res.result;
+          //先做码判断(单品，中盒，外箱)
+          var querycode ='';
+          var http = queryCode.substring(0, 20);
+          // if(http.equals('http://weixin.qq.com')){
+          //     querycode=queryCode.substring(-1, -20);
+          //     console.log(querycode);
+          // };
+          console.log("http:", http,querycode);
           wx.request({
             url: FCHCodeURL,
             data: {
               queryCode: queryCode,
               userName: loginUserInfo.userName,
-              storeName:that.data.storeName,
-              latitude:that.data.latitude,
-              longitude:that.data.longitude,
-              position:that.data.position
+              storeName: that.data.storeName,
+              latitude: that.data.latitude,
+              longitude: that.data.longitude,
+              position: that.data.position
             },
             method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
             // header: {}, // 设置请求的 header
@@ -243,17 +265,24 @@ Page({
             },
             success: function (res) {
               console.log(res.data);
-              if(res.data.returnCode==0){
+              if (res.data.returnCode == 0) {
                 that.setData({
                   rgcData: {
-                     queryCode: '条    码: '+ '\t'+queryCode,
-                     productName:'产品名称: '+ '\t'+res.data.returnData.productName,
-                     inWarehouse: '售达方: '+ '\t'+res.data.returnData.inWarehouse, 
-                     toCompanyname: '送达方: '+ '\t'+res.data.returnData.toCompanyname,
-                     billNo: '发货单号: '+ '\t'+res.data.returnData.billNo, 
-                     storeDateApp:'发货时间: '+ '\t'+res.data.returnData.storeDateApp,
-                     }
+                    queryCode: '条码: ' + '\t' + queryCode,
+                    productName: '产品名称: ' + '\t' + res.data.returnData.productName,
+                    inWarehouse: '售达方: ' + '\t' + res.data.returnData.inWarehouse,
+                    toCompanyname: '送达方: ' + '\t' + res.data.returnData.toCompanyname,
+                    billNo: '发货单号: ' + '\t' + res.data.returnData.billNo,
+                    storeDateApp: '发货时间: ' + '\t' + res.data.returnData.storeDateApp,
+                  }
                 })
+              } else if (res.data.returnCode == -1) {
+                wx.showToast({
+                  title: res.data.returnMsg,
+                  icon: 'none',
+                  duration: 3000
+                });
+
               }
               // success
             },
@@ -276,6 +305,7 @@ Page({
       })
 
     } else {
+      //如果未登录弹出登录窗口
       var currentStatu = "open";
       that.util(currentStatu);
       //app.globalData.flag=false;
